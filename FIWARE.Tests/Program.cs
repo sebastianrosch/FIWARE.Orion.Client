@@ -20,11 +20,12 @@ namespace FIWARE.Tests
             OrionClient.OrionConfig config = new OrionClient.OrionConfig()
             {
                 Token = token,
+                BaseUrl = "http://160.85.2.21:1026"
             };
 
             OrionClient client = new OrionClient(config);
 
-            OrionVersion version = client.GetOrionVersion().Result;
+            OrionVersion version = client.GetOrionVersionAsync().Result;
             Debug.WriteLine(version.orion.version);
 
             ContextUpdate create = new ContextUpdate()
@@ -46,7 +47,7 @@ namespace FIWARE.Tests
                 }
             };
 
-            ContextResponses createResponses = client.UpdateContext(create).Result;
+            ContextResponses createResponses = client.UpdateContextAsync(create).Result;
             Debug.WriteLine(createResponses.contextResponses.First().statusCode.reasonPhrase);
 
             ContextUpdate update = new ContextUpdate()
@@ -68,13 +69,13 @@ namespace FIWARE.Tests
                 }
             };
 
-            ContextResponses updateResponses = client.UpdateContext(update).Result;
+            ContextResponses updateResponses = client.UpdateContextAsync(update).Result;
             Debug.WriteLine(updateResponses.contextResponses.First().statusCode.reasonPhrase);
 
             ContextQuery query = new ContextQuery()
             {
-                entities = new List<ContextQueryElement>(){
-                    new ContextQueryElement(){
+                entities = new List<ContextEntity>(){
+                    new ContextEntity(){
                         type = "Room",
                         isPattern = true,
                         id = "Room.*",
@@ -82,7 +83,7 @@ namespace FIWARE.Tests
                 },
             };
 
-            ContextResponses queryResponses = client.Query(query).Result;
+            ContextResponses queryResponses = client.QueryAsync(query).Result;
             foreach (var item in queryResponses.contextResponses)
             {
                 Debug.WriteLine(item.contextElement.id);
@@ -90,8 +91,8 @@ namespace FIWARE.Tests
 
             ContextQuery query2 = new ContextQuery()
             {
-                entities = new List<ContextQueryElement>(){
-                    new ContextQueryElement(){
+                entities = new List<ContextEntity>(){
+                    new ContextEntity(){
                         type = "Room",
                         isPattern = true,
                         id = "Room.*",
@@ -99,18 +100,43 @@ namespace FIWARE.Tests
                 },
                 attributes = new List<string>()
                 {
-                    "temp",
+                    "temperature",
                 }
             };
 
-            ContextResponses queryResponses2 = client.Query(query2).Result;
+            ContextResponses queryResponses2 = client.QueryAsync(query2).Result;
             foreach (var item in queryResponses2.contextResponses)
             {
                 Debug.WriteLine(item.contextElement.id);
             }
 
+            ContextSubscription subscription = new ContextSubscription()
+            {
+                entities = new List<ContextEntity>()
+                {
+                    new ContextEntity(){
+                        type = "Room",
+                        isPattern = true,
+                        id = "Room.*"
+                    },
+                },
+                attributes = new List<string>() { 
+                    "temperature"
+                },
+                reference = "http://smarthome.cloudapp.net/api/UserContext/Broker",
+                duration = "P1M",
+                notifyConditions = new List<NotifyCondition>()
+                {
+                    new NotifyCondition(){
+                        type = NotifyConditionTypes.ONCHANGE,
+                        condValues = new List<string>(){ "temperature"}
+                    }
+                },
+                throttling = "PT5S"
+            };
 
-
+            ContextSubscriptionResponse subscriptionResponse = client.SubscribeAsync(subscription).Result;
+            Debug.WriteLine(subscriptionResponse.subscribeResponse.subscriptionId);
         }
     }
 }

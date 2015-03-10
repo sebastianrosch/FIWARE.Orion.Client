@@ -26,6 +26,8 @@ namespace FIWARE.Orion.Client.Models
 
     public class ContextResponses
     {
+        public string subscriptionId { get; set; }
+        public string originator { get; set; }
         public List<ContextResponse> contextResponses { get; set; }
         public ErrorCode errorCode { get; set; }
     }

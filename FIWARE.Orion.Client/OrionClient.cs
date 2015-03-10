@@ -39,7 +39,7 @@ namespace FIWARE.Orion.Client
         /// </summary>
         /// <param name="contextUpdate">The context update</param>
         /// <returns>The response object</returns>
-        public async Task<ContextResponses> UpdateContext(ContextUpdate contextUpdate)
+        public async Task<ContextResponses> UpdateContextAsync(ContextUpdate contextUpdate)
         {
             string uri = string.Format(OrionConfig.UrlFormat, _config.BaseUrl, _config.Version1Path, OrionConfig.UpdateContextPath);
 
@@ -68,12 +68,44 @@ namespace FIWARE.Orion.Client
             }
         }
 
+
+        /// <summary>
+        /// Subscribes the specified URLs for context changes
+        /// </summary>
+        /// <param name="contextSubscription">The context subscription</param>
+        /// <returns>The response object</returns>
+        public async Task<ContextSubscriptionResponse> SubscribeAsync(ContextSubscription contextSubscription)
+        {
+            string uri = string.Format(OrionConfig.UrlFormat, _config.BaseUrl, _config.Version1Path, OrionConfig.SubscribeContextPath);
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add(OrionConfig.AuthHeaderKey, _config.Token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                string body = JsonConvert.SerializeObject(contextSubscription);
+
+                HttpContent postContent = new StringContent(body, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(uri, postContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = response.Content.ReadAsStringAsync().Result;
+                    ContextSubscriptionResponse contextSubscriptionResponse = JsonConvert.DeserializeObject<ContextSubscriptionResponse>(content);
+
+                    return contextSubscriptionResponse;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         /// <summary>
         /// Queries the Context Broker for the specified query
         /// </summary>
         /// <param name="contextQuery">The context query</param>
         /// <returns>The response object</returns>
-        public async Task<ContextResponses> Query(ContextQuery contextQuery)
+        public async Task<ContextResponses> QueryAsync(ContextQuery contextQuery)
         {
             string uri = string.Format(OrionConfig.UrlFormat, _config.BaseUrl, _config.Version1Path, OrionConfig.QueryContextPath);
 
@@ -106,7 +138,7 @@ namespace FIWARE.Orion.Client
         /// Gets the current version of the Orion Context Broker
         /// </summary>
         /// <returns>The version object</returns>
-        public async Task<OrionVersion> GetOrionVersion()
+        public async Task<OrionVersion> GetOrionVersionAsync()
         {
             string uri = string.Format(OrionConfig.VersionUrlFormat, _config.BaseUrl, OrionConfig.VersionPath);
 
@@ -145,6 +177,7 @@ namespace FIWARE.Orion.Client
             public const string UpdateContextPath = "updateContext";
             public const string QueryContextPath = "queryContext";
             public const string ContextEntitiesPath = "contextEntities";
+            public const string SubscribeContextPath = "subscribeContext";
             public const string AuthHeaderKey = "X-Auth-Token";
 
             /// <summary>
@@ -153,7 +186,7 @@ namespace FIWARE.Orion.Client
             public string Token { get; set; }
 
             /// <summary>
-            /// The base URL of the Orion instance. Overwrite this with your own URI. By default, uses the public Orion instance at orion.lab.fi-ware.org.
+            /// The base URL of the Orion instance. Overwrite this with your own URI. By default, uses the Orion Global instance at orion.lab.fi-ware.org.
             /// </summary>
             public string BaseUrl
             {

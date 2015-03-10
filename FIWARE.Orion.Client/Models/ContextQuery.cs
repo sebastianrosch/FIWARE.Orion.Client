@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FIWARE.Orion.Client.Models
 {
 
-    public class ContextQueryElement
+    public class ContextEntity
     {
         public string type { get; set; }
         public bool isPattern { get; set; }
@@ -16,7 +16,7 @@ namespace FIWARE.Orion.Client.Models
 
     public class ContextQuery
     {
-        public List<ContextQueryElement> entities { get; set; }
+        public List<ContextEntity> entities { get; set; }
         public List<string> attributes { get; set; }
     }
 }
