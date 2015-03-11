@@ -156,7 +156,7 @@ namespace FIWARE.Orion.Client
         /// <returns>The response object</returns>
         public async Task<ContextUnsubscribeResponse> UnsubscribeAsync(string subscriptionId)
         {
-            ContextSubscription contextSubscription = new ContextSubscription() { subscriptionId = subscriptionId };
+            ContextSubscription contextSubscription = new ContextSubscription() { SubscriptionId = subscriptionId };
 
             RESTClient<ContextUnsubscribeResponse> client = new RESTClient<ContextUnsubscribeResponse>(OrionConfig.AuthHeaderKey, _config.Token);
             string uri = string.Format(OrionConfig.UrlFormat, _config.BaseUrl, _config.Version1Path, OrionConfig.UnsubscribeContextPath);

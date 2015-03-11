@@ -112,7 +112,7 @@ namespace FIWARE.Tests
 
             ContextSubscription subscription = new ContextSubscription()
             {
-                entities = new List<ContextEntity>()
+                Entities = new List<ContextEntity>()
                 {
                     new ContextEntity(){
                         type = "Room",
@@ -120,23 +120,23 @@ namespace FIWARE.Tests
                         id = "Room.*"
                     },
                 },
-                attributes = new List<string>() { 
+                Attributes = new List<string>() { 
                     "temperature"
                 },
-                reference = "http://smarthome.cloudapp.net/api/UserContext/Broker",
-                duration = "P1M",
-                notifyConditions = new List<NotifyCondition>()
+                Reference = "http://smarthome.cloudapp.net/api/UserContext/Broker",
+                Duration = SubscriptionDurations.OneMonth,
+                NotifyConditions = new List<NotifyCondition>()
                 {
                     new NotifyCondition(){
-                        type = NotifyConditionTypes.ONCHANGE,
-                        condValues = new List<string>(){ "temperature"}
+                        Type = NotifyConditionTypes.ONCHANGE,
+                        ConditionValues = new List<string>(){ "temperature"}
                     }
                 },
-                throttling = "PT5S"
+                Throttling = SubscriptionThrottlingTypes.PT5S
             };
 
             ContextSubscriptionResponse subscriptionResponse = client.SubscribeAsync(subscription).Result;
-            Debug.WriteLine(subscriptionResponse.subscribeResponse.subscriptionId);
+            Debug.WriteLine(subscriptionResponse.SubscribeResponse.SubscriptionId);
 
             ContextResponses allEntities = client.GetAllEntitiesAsync().Result;
             foreach (var entity in allEntities.contextResponses)
@@ -159,8 +159,8 @@ namespace FIWARE.Tests
                 Debug.WriteLine(attribute.name);
             }
 
-            ContextUnsubscribeResponse unsubscribe = client.UnsubscribeAsync(subscriptionResponse.subscribeResponse.subscriptionId).Result;
-            Debug.WriteLine(unsubscribe.subscriptionId);
+            ContextUnsubscribeResponse unsubscribe = client.UnsubscribeAsync(subscriptionResponse.SubscribeResponse.SubscriptionId).Result;
+            Debug.WriteLine(unsubscribe.SubscriptionId);
         }
     }
 }
