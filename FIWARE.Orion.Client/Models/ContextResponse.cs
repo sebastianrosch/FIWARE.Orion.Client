@@ -11,6 +11,7 @@ namespace FIWARE.Orion.Client.Models
         public string code { get; set; }
         public string reasonPhrase { get; set; }
     }
+
     public class ErrorCode
     {
         public string code { get; set; }

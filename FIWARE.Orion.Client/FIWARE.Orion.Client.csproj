@@ -35,13 +35,16 @@
     <DocumentationFile>bin\Release\FIWARE.Orion.Client.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\ContextAttributesResponse.cs" />
     <Compile Include="Models\ContextSubscription.cs" />
+    <Compile Include="Models\ContextTypesResponse.cs" />
     <Compile Include="OrionClient.cs" />
     <Compile Include="Models\ContextQuery.cs" />
     <Compile Include="Models\ContextResponse.cs" />
     <Compile Include="Models\ContextUpdate.cs" />
     <Compile Include="Models\OrionVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="REST\RESTClient.cs" />
     <Compile Include="Types\NotifyConditionTypes.cs" />
     <Compile Include="Types\UpdateActionTypes.cs" />
   </ItemGroup>

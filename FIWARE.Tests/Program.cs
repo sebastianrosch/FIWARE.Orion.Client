@@ -137,6 +137,30 @@ namespace FIWARE.Tests
 
             ContextSubscriptionResponse subscriptionResponse = client.SubscribeAsync(subscription).Result;
             Debug.WriteLine(subscriptionResponse.subscribeResponse.subscriptionId);
+
+            ContextResponses allEntities = client.GetAllEntitiesAsync().Result;
+            foreach (var entity in allEntities.contextResponses)
+            {
+                Debug.WriteLine(entity.contextElement.id);
+            }
+
+            ContextResponse car1 = client.GetEntityAsync("Car1").Result;
+            Debug.WriteLine(car1.contextElement.id);
+
+            ContextTypesResponse types = client.GetTypesAsync().Result;
+            foreach (var type in types.types)
+            {
+                Debug.WriteLine(type.name);
+            }
+
+            ContextAttributesResponse attributes = client.GetAttributesForTypeAsync("User").Result;
+            foreach (var attribute in attributes.attributes)
+            {
+                Debug.WriteLine(attribute.name);
+            }
+
+            ContextUnsubscribeResponse unsubscribe = client.UnsubscribeAsync(subscriptionResponse.subscribeResponse.subscriptionId).Result;
+            Debug.WriteLine(unsubscribe.subscriptionId);
         }
     }
 }

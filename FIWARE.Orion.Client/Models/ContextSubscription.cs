@@ -14,6 +14,7 @@ namespace FIWARE.Orion.Client.Models
 
     public class ContextSubscription
     {
+        public string subscriptionId { get; set; }
         public List<ContextEntity> entities { get; set; }
         public List<string> attributes { get; set; }
         public string reference { get; set; }
@@ -33,5 +34,11 @@ namespace FIWARE.Orion.Client.Models
     {
         public SubscribeResponse subscribeResponse { get; set; }
         public ErrorCode errorCode { get; set; }
+    }
+
+    public class ContextUnsubscribeResponse
+    {
+        public string subscriptionId { get; set; }
+        public StatusCode statusCode { get; set; }
     }
 }
