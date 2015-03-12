@@ -10,5 +10,6 @@ namespace FIWARE.Orion.Client.Types
     {
         public const string APPEND = "APPEND";
         public const string UPDATE = "UPDATE";
+        public const string DELETE = "DELETE";
     }
 }

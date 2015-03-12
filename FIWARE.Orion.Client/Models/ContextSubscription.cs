@@ -40,7 +40,7 @@ namespace FIWARE.Orion.Client.Models
         /// The entities to subscribe to
         /// </summary>
         [JsonProperty("entities")]
-        public List<ContextEntity> Entities { get; set; }
+        public List<ContextQueryEntity> Entities { get; set; }
 
         /// <summary>
         /// The attributes to subscribe to

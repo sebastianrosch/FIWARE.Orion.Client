@@ -57,8 +57,8 @@ namespace FIWARE.Orion.Client
 
             ContextResponses contextResponses = await client.PostAsync(uri, body);
 
-            if (contextResponses.contextResponses == null)
-                contextResponses.contextResponses = new List<ContextResponse>();
+            if (contextResponses.Responses == null)
+                contextResponses.Responses = new List<ContextResponse>();
 
             return contextResponses;
         }
@@ -76,8 +76,8 @@ namespace FIWARE.Orion.Client
 
             ContextResponses contextResponses = await client.PostAsync(uri, body);
 
-            if (contextResponses.contextResponses == null)
-                contextResponses.contextResponses = new List<ContextResponse>();
+            if (contextResponses.Responses == null)
+                contextResponses.Responses = new List<ContextResponse>();
 
             return contextResponses;
         }
@@ -179,8 +179,8 @@ namespace FIWARE.Orion.Client
             string uri = string.Format(OrionConfig.UrlFormat, _config.BaseUrl, _config.Version1Path, OrionConfig.ContextEntitiesPath);
             ContextResponses contextResponses = await client.GetAsync(uri);
 
-            if (contextResponses.contextResponses == null)
-                contextResponses.contextResponses = new List<ContextResponse>();
+            if (contextResponses.Responses == null)
+                contextResponses.Responses = new List<ContextResponse>();
 
             return contextResponses;
         }

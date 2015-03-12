@@ -20,27 +20,26 @@ namespace FIWARE.Tests
             OrionClient.OrionConfig config = new OrionClient.OrionConfig()
             {
                 Token = token,
-                BaseUrl = "http://160.85.2.21:1026"
             };
 
             OrionClient client = new OrionClient(config);
 
             OrionVersion version = client.GetOrionVersionAsync().Result;
-            Debug.WriteLine(version.orion.version);
+            Debug.WriteLine(version.Orion.Version);
 
             ContextUpdate create = new ContextUpdate()
             {
-                updateAction = UpdateActionTypes.APPEND,
-                contextElements = new List<ContextElement>(){
+                UpdateAction = UpdateActionTypes.APPEND,
+                ContextElements = new List<ContextElement>(){
                     new ContextElement(){
-                        type = "Room",
-                        isPattern = false,
-                        id = "Room-sebastian-123",
-                        attributes = new List<Orion.Client.Models.ContextAttribute>(){
+                        Type = "Room",
+                        IsPattern = false,
+                        Id = "Room-sebastian-123",
+                        Attributes = new List<Orion.Client.Models.ContextAttribute>(){
                             new Orion.Client.Models.ContextAttribute(){
-                                name = "temperature",
-                                type = "float",
-                                value = "23",
+                                Name = "temperature",
+                                Type = "float",
+                                Value = "23",
                             }
                         }
                     },
@@ -48,21 +47,28 @@ namespace FIWARE.Tests
             };
 
             ContextResponses createResponses = client.UpdateContextAsync(create).Result;
-            Debug.WriteLine(createResponses.contextResponses.First().statusCode.reasonPhrase);
+            Debug.WriteLine(createResponses.Responses.First().StatusCode.ReasonPhrase);
 
             ContextUpdate update = new ContextUpdate()
             {
-                updateAction = UpdateActionTypes.UPDATE,
-                contextElements = new List<ContextElement>(){
+                UpdateAction = UpdateActionTypes.UPDATE,
+                ContextElements = new List<ContextElement>(){
                     new ContextElement(){
-                        type = "Room",
-                        isPattern = false,
-                        id = "Room-sebastian-123",
-                        attributes = new List<Orion.Client.Models.ContextAttribute>(){
+                        Type = "Room",
+                        IsPattern = false,
+                        Id = "Room-sebastian-123",
+                        Attributes = new List<Orion.Client.Models.ContextAttribute>(){
                             new Orion.Client.Models.ContextAttribute(){
-                                name = "temperature",
-                                type = "float",
-                                value = "230",
+                                Name = "temperature",
+                                Type = "float",
+                                Value = "230",
+                                Metadata = new List<ContextAttributeMetadata>(){
+                                    new ContextAttributeMetadata(){
+                                        Name = "AcquisitionKey",
+                                        Type = "string",
+                                        Value = "user.app.iphone"
+                                    }
+                                }
                             }
                         }
                     },
@@ -70,54 +76,54 @@ namespace FIWARE.Tests
             };
 
             ContextResponses updateResponses = client.UpdateContextAsync(update).Result;
-            Debug.WriteLine(updateResponses.contextResponses.First().statusCode.reasonPhrase);
+            Debug.WriteLine(updateResponses.Responses.First().StatusCode.ReasonPhrase);
 
             ContextQuery query = new ContextQuery()
             {
-                entities = new List<ContextEntity>(){
-                    new ContextEntity(){
-                        type = "Room",
-                        isPattern = true,
-                        id = "Room.*",
+                Entities = new List<ContextQueryEntity>(){
+                    new ContextQueryEntity(){
+                        Type = "Room",
+                        IsPattern = true,
+                        Id = "Room.*",
                     },
                 },
             };
 
             ContextResponses queryResponses = client.QueryAsync(query).Result;
-            foreach (var item in queryResponses.contextResponses)
+            foreach (var item in queryResponses.Responses)
             {
-                Debug.WriteLine(item.contextElement.id);
+                Debug.WriteLine(item.ContextElement.Id);
             }
 
             ContextQuery query2 = new ContextQuery()
             {
-                entities = new List<ContextEntity>(){
-                    new ContextEntity(){
-                        type = "Room",
-                        isPattern = true,
-                        id = "Room.*",
+                Entities = new List<ContextQueryEntity>(){
+                    new ContextQueryEntity(){
+                        Type = "Room",
+                        IsPattern = true,
+                        Id = "Room.*",
                     },
                 },
-                attributes = new List<string>()
+                Attributes = new List<string>()
                 {
                     "temperature",
                 }
             };
 
             ContextResponses queryResponses2 = client.QueryAsync(query2).Result;
-            foreach (var item in queryResponses2.contextResponses)
+            foreach (var item in queryResponses2.Responses)
             {
-                Debug.WriteLine(item.contextElement.id);
+                Debug.WriteLine(item.ContextElement.Id);
             }
 
             ContextSubscription subscription = new ContextSubscription()
             {
-                Entities = new List<ContextEntity>()
+                Entities = new List<ContextQueryEntity>()
                 {
-                    new ContextEntity(){
-                        type = "Room",
-                        isPattern = true,
-                        id = "Room.*"
+                    new ContextQueryEntity(){
+                        Type = "Room",
+                        IsPattern = true,
+                        Id = "Room.*"
                     },
                 },
                 Attributes = new List<string>() { 
@@ -139,13 +145,13 @@ namespace FIWARE.Tests
             Debug.WriteLine(subscriptionResponse.SubscribeResponse.SubscriptionId);
 
             ContextResponses allEntities = client.GetAllEntitiesAsync().Result;
-            foreach (var entity in allEntities.contextResponses)
+            foreach (var entity in allEntities.Responses)
             {
-                Debug.WriteLine(entity.contextElement.id);
+                Debug.WriteLine(entity.ContextElement.Id);
             }
 
             ContextResponse car1 = client.GetEntityAsync("Car1").Result;
-            Debug.WriteLine(car1.contextElement.id);
+            Debug.WriteLine(car1.ContextElement.Id);
 
             ContextTypesResponse types = client.GetTypesAsync().Result;
             foreach (var type in types.types)
@@ -156,7 +162,7 @@ namespace FIWARE.Tests
             ContextAttributesResponse attributes = client.GetAttributesForTypeAsync("User").Result;
             foreach (var attribute in attributes.attributes)
             {
-                Debug.WriteLine(attribute.name);
+                Debug.WriteLine(attribute.Name);
             }
 
             ContextUnsubscribeResponse unsubscribe = client.UnsubscribeAsync(subscriptionResponse.SubscribeResponse.SubscriptionId).Result;

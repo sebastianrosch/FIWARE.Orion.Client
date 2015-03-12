@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,18 +7,35 @@ using System.Threading.Tasks;
 
 namespace FIWARE.Orion.Client.Models
 {
+    /// <summary>
+    /// Represents the current Orion version
+    /// </summary>
     public class Orion
     {
-        public string version { get; set; }
-        public string uptime { get; set; }
-        public string git_hash { get; set; }
-        public string compile_time { get; set; }
-        public string compiled_by { get; set; }
-        public string compiled_in { get; set; }
+        /// <summary>
+        /// The version
+        /// </summary>
+        [JsonProperty("version")]
+        public string Version { get; set; }
+        [JsonProperty("uptime")]
+        public string Uptime { get; set; }
+        [JsonProperty("git_hash")]
+        public string GitHash { get; set; }
+        [JsonProperty("comiple_time")]
+        public string CompileTime { get; set; }
+        [JsonProperty("compiled_by")]
+        public string CompiledBy { get; set; }
+        [JsonProperty("compiled_in")]
+        public string CompiledIn { get; set; }
     }
 
+    /// <summary>
+    /// The Orion version wrapper
+    /// </summary>
     public class OrionVersion
     {
-        public Orion orion { get; set; }
+
+        [JsonProperty("orion")]
+        public Orion Orion { get; set; }
     }
 }
