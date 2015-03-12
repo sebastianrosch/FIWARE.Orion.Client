@@ -46,7 +46,7 @@ namespace FIWARE.Orion.Client.REST
                 HttpResponseMessage response = await client.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
-                    var content = response.Content.ReadAsStringAsync().Result;
+                    var content = await response.Content.ReadAsStringAsync();
                     T genericResponse = JsonConvert.DeserializeObject<T>(content);
 
                     return genericResponse;
@@ -76,7 +76,7 @@ namespace FIWARE.Orion.Client.REST
                 HttpResponseMessage response = await client.PostAsync(uri, postContent);
                 if (response.IsSuccessStatusCode)
                 {
-                    var content = response.Content.ReadAsStringAsync().Result;
+                    var content = await response.Content.ReadAsStringAsync();
                     T genericResponse = JsonConvert.DeserializeObject<T>(content);
 
                     return genericResponse;
@@ -106,7 +106,7 @@ namespace FIWARE.Orion.Client.REST
                 HttpResponseMessage response = await client.PutAsync(uri, postContent);
                 if (response.IsSuccessStatusCode)
                 {
-                    var content = response.Content.ReadAsStringAsync().Result;
+                    var content = await response.Content.ReadAsStringAsync();
                     T genericResponse = JsonConvert.DeserializeObject<T>(content);
 
                     return genericResponse;
@@ -134,7 +134,7 @@ namespace FIWARE.Orion.Client.REST
                 HttpResponseMessage response = await client.DeleteAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
-                    var content = response.Content.ReadAsStringAsync().Result;
+                    var content = await response.Content.ReadAsStringAsync();
                     T genericResponse = JsonConvert.DeserializeObject<T>(content);
 
                     return genericResponse;

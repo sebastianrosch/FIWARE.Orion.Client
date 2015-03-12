@@ -32,13 +32,13 @@ namespace FIWARE.Tests
                 UpdateAction = UpdateActionTypes.APPEND,
                 ContextElements = new List<ContextElement>(){
                     new ContextElement(){
-                        Type = "Room",
+                        Type = "User",
                         IsPattern = false,
-                        Id = "Room-sebastian-123",
+                        Id = "76afe5ed-a2b1-49f8-ba53-92eef732d265",
                         Attributes = new List<Orion.Client.Models.ContextAttribute>(){
                             new Orion.Client.Models.ContextAttribute(){
-                                Name = "temperature",
-                                Type = "float",
+                                Name = "userlocation",
+                                Type = "string",
                                 Value = "23",
                             }
                         }
