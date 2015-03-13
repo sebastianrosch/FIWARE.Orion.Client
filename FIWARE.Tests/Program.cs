@@ -154,9 +154,9 @@ namespace FIWARE.Tests
             Debug.WriteLine(car1.ContextElement.Id);
 
             ContextTypesResponse types = client.GetTypesAsync().Result;
-            foreach (var type in types.types)
+            foreach (var type in types.Types)
             {
-                Debug.WriteLine(type.name);
+                Debug.WriteLine(type.Name);
             }
 
             ContextAttributesResponse attributes = client.GetAttributesForTypeAsync("User").Result;

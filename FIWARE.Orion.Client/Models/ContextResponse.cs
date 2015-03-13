@@ -68,7 +68,7 @@ namespace FIWARE.Orion.Client.Models
     }
 
     /// <summary>
-    /// 
+    /// The wrapper for context responses
     /// </summary>
     public class ContextResponses
     {

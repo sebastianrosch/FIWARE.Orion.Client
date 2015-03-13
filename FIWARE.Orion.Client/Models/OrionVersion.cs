@@ -17,14 +17,34 @@ namespace FIWARE.Orion.Client.Models
         /// </summary>
         [JsonProperty("version")]
         public string Version { get; set; }
+
+        /// <summary>
+        /// The uptime of the context broker
+        /// </summary>
         [JsonProperty("uptime")]
         public string Uptime { get; set; }
+
+        /// <summary>
+        /// The git hash of this build
+        /// </summary>
         [JsonProperty("git_hash")]
         public string GitHash { get; set; }
+
+        /// <summary>
+        /// The date and time this version was compiled
+        /// </summary>
         [JsonProperty("comiple_time")]
         public string CompileTime { get; set; }
+
+        /// <summary>
+        /// The name of the person that compiled this build
+        /// </summary>
         [JsonProperty("compiled_by")]
         public string CompiledBy { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         [JsonProperty("compiled_in")]
         public string CompiledIn { get; set; }
     }
@@ -34,7 +54,9 @@ namespace FIWARE.Orion.Client.Models
     /// </summary>
     public class OrionVersion
     {
-
+        /// <summary>
+        /// The Orion version
+        /// </summary>
         [JsonProperty("orion")]
         public Orion Orion { get; set; }
     }
