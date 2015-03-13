@@ -10,7 +10,9 @@ This client works with the Globale Instance of Orion as well as with any other d
 For more information about Orion, please consult the following documents:
 
 GitHub Repository: https://github.com/telefonicaid/fiware-orion
+
 FIWARE Catalogue: http://catalogue.fiware.org/enablers/publishsubscribe-context-broker-orion-context-broker
+
 FIWARE User Guide: https://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Publish/Subscribe_Broker_-_Orion_Context_Broker_-_User_and_Programmers_Guide
 
 
@@ -19,6 +21,8 @@ FIWARE User Guide: https://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.
 ## 1. Configure the client
 
 To connect to the Global Instance of Orion, create a new configuration by providing your access token from the FIWARE Lab Account.
+
+Read this tutorial to learn how to get a token: https://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Publish/Subscribe_Broker_-_Orion_Context_Broker_-_Quick_Start_for_Programmers
 
         OrionClient.OrionConfig config = new OrionClient.OrionConfig()
         {
