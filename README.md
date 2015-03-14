@@ -15,6 +15,11 @@ FIWARE Catalogue: http://catalogue.fiware.org/enablers/publishsubscribe-context-
 
 FIWARE User Guide: https://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Publish/Subscribe_Broker_-_Orion_Context_Broker_-_User_and_Programmers_Guide
 
+# Installation
+
+Get the Nuget package here: https://www.nuget.org/packages/FIWARE.Orion.Client
+
+Id: FIWARE.Orion.Client
 
 # Usage
 
