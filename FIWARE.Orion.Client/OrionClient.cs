@@ -197,6 +197,19 @@ namespace FIWARE.Orion.Client
         }
 
         /// <summary>
+        /// Adds the specified entity
+        /// </summary>
+        /// <returns>The response object</returns>
+        public async Task<ContextResponse> AddEntityAsync(ContextElement entity)
+        {
+            RESTClient<ContextResponse> client = new RESTClient<ContextResponse>(OrionConfig.AuthHeaderKey, _config.Token);
+            string uri = string.Format(OrionConfig.UrlFormat, _config.BaseUrl, _config.Version1Path, OrionConfig.ContextEntitiesPath);
+            string body = JsonConvert.SerializeObject(entity, jsonSettings);
+
+            return await client.PostAsync(uri, body);
+        }
+
+        /// <summary>
         /// Updates the entity with the specified id
         /// </summary>
         /// <returns>The response object</returns>
@@ -204,7 +217,9 @@ namespace FIWARE.Orion.Client
         {
             RESTClient<ContextResponse> client = new RESTClient<ContextResponse>(OrionConfig.AuthHeaderKey, _config.Token);
             string uri = string.Format(OrionConfig.ConvenienceUrlFormat, _config.BaseUrl, _config.Version1Path, OrionConfig.ContextEntitiesPath, entityId);
-            return await client.GetAsync(uri);
+            string body = JsonConvert.SerializeObject(entity, jsonSettings);
+
+            return await client.PutAsync(uri, body);
         }
 
         /// <summary>
@@ -215,6 +230,67 @@ namespace FIWARE.Orion.Client
         {
             RESTClient<ContextResponse> client = new RESTClient<ContextResponse>(OrionConfig.AuthHeaderKey, _config.Token);
             string uri = string.Format(OrionConfig.ConvenienceUrlFormat, _config.BaseUrl, _config.Version1Path, OrionConfig.ContextEntitiesPath, entityId);
+            return await client.DeleteAsync(uri);
+        }
+
+        /// <summary>
+        /// Gets all attributes for the entity with the specified id
+        /// </summary>
+        /// <returns>The response object</returns>
+        public async Task<ContextResponse> GetAttributesForEntityAsync(string entityId)
+        {
+            RESTClient<ContextResponse> client = new RESTClient<ContextResponse>(OrionConfig.AuthHeaderKey, _config.Token);
+            string uri = string.Format(OrionConfig.ConvenienceUrlFormatOneParam, _config.BaseUrl, _config.Version1Path, OrionConfig.ContextEntitiesPath, entityId, OrionConfig.AttributesPath);
+            return await client.GetAsync(uri);
+        }
+
+        /// <summary>
+        /// Gets the value of the specified attribute and entity id
+        /// </summary>
+        /// <returns>The response object</returns>
+        public async Task<ContextAttributesResponse> GetAttributeValueForEntityAsync(string entityId, string attributeName)
+        {
+            RESTClient<ContextAttributesResponse> client = new RESTClient<ContextAttributesResponse>(OrionConfig.AuthHeaderKey, _config.Token);
+            string uri = string.Format(OrionConfig.ConvenienceUrlFormatTwoParams, _config.BaseUrl, _config.Version1Path, OrionConfig.ContextEntitiesPath, entityId, OrionConfig.AttributesPath, attributeName);
+            return await client.GetAsync(uri);
+        }
+
+        /// <summary>
+        /// Adds the specified attribute to the entity with the specified id
+        /// </summary>
+        /// <returns>The response object</returns>
+        public async Task<StatusCode> AddAttributeForEntityAsync(string entityId, ContextAttribute attribute)
+        {
+            RESTClient<StatusCode> client = new RESTClient<StatusCode>(OrionConfig.AuthHeaderKey, _config.Token);
+            string uri = string.Format(OrionConfig.ConvenienceUrlFormatOneParam, _config.BaseUrl, _config.Version1Path, OrionConfig.ContextEntitiesPath, entityId, OrionConfig.AttributesPath);
+            string body = JsonConvert.SerializeObject(attribute, jsonSettings);
+
+            return await client.PutAsync(uri, body);
+        }
+
+        /// <summary>
+        /// Sets the value of the specified attribute and entity id
+        /// </summary>
+        /// <returns>The response object</returns>
+        public async Task<StatusCode> SetAttributeValueForEntityAsync(string entityId, string attributeName, string value)
+        {
+            ContextAttribute attribute = new ContextAttribute() { Value = value };
+            RESTClient<StatusCode> client = new RESTClient<StatusCode>(OrionConfig.AuthHeaderKey, _config.Token);
+            string uri = string.Format(OrionConfig.ConvenienceUrlFormatTwoParams, _config.BaseUrl, _config.Version1Path, OrionConfig.ContextEntitiesPath, entityId, OrionConfig.AttributesPath, attributeName);
+            string body = JsonConvert.SerializeObject(attribute, jsonSettings);
+
+            return await client.PutAsync(uri, body);
+        }
+
+        /// <summary>
+        /// Deletes the value of the specified attribute and entity id
+        /// </summary>
+        /// <returns>The response object</returns>
+        public async Task<StatusCode> DeleteAttributeForEntityAsync(string entityId, string attributeName)
+        {
+            RESTClient<StatusCode> client = new RESTClient<StatusCode>(OrionConfig.AuthHeaderKey, _config.Token);
+            string uri = string.Format(OrionConfig.ConvenienceUrlFormatTwoParams, _config.BaseUrl, _config.Version1Path, OrionConfig.ContextEntitiesPath, entityId, OrionConfig.AttributesPath, attributeName);
+
             return await client.DeleteAsync(uri);
         }
 
@@ -229,6 +305,8 @@ namespace FIWARE.Orion.Client
             private string _baseUrl = "http://orion.lab.fi-ware.org:1026/";
             public const string UrlFormat = "{0}/{1}/{2}";
             public const string ConvenienceUrlFormat = "{0}/{1}/{2}/{3}";
+            public const string ConvenienceUrlFormatOneParam = "{0}/{1}/{2}/{3}/{4}";
+            public const string ConvenienceUrlFormatTwoParams = "{0}/{1}/{2}/{3}/{4}/{5}";
             public const string VersionUrlFormat = "{0}/{1}";
             public string Version1Path = "v1";
 
@@ -242,6 +320,7 @@ namespace FIWARE.Orion.Client
 
 
             public const string ContextEntitiesPath = "contextEntities";
+            public const string AttributesPath = "attributes";
             public const string ContextTypesPath = "contextTypes";
 
 

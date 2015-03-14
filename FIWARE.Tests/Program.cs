@@ -75,6 +75,8 @@ namespace FIWARE.Tests
                 }
             };
 
+            StatusCode setAttributeResult = client.SetAttributeValueForEntityAsync("Room-sebastian-123", "temperature", new Random().Next(-30, 45).ToString()).Result;
+
             ContextResponses updateResponses = client.UpdateContextAsync(update).Result;
             Debug.WriteLine(updateResponses.Responses.First().StatusCode.ReasonPhrase);
 
