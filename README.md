@@ -64,3 +64,50 @@ To connect to your own instance, configure the base url and your access token, i
 
         ContextResponses createResponses = await client.UpdateContextAsync(create);
 
+## 3. Query the Context Broker
+
+        ContextQuery query = new ContextQuery()
+            {
+                Entities = new List<ContextQueryEntity>(){
+                    new ContextQueryEntity(){
+                        Type = "Room",
+                        IsPattern = true,
+                        Id = "Room.*",
+                    },
+                },
+                Attributes = new List<string>()
+                {
+                    "temperature",
+                }
+            };
+
+        ContextResponses queryResponses = await client.QueryAsync(query);
+
+## 4. Create a subscription
+
+            ContextSubscription subscription = new ContextSubscription()
+            {
+                Entities = new List<ContextQueryEntity>()
+                {
+                    new ContextQueryEntity(){
+                        Type = "Room",
+                        IsPattern = true,
+                        Id = "Room.*"
+                    },
+                },
+                Attributes = new List<string>() { 
+                    "temperature"
+                },
+                Reference = "YOUR_CALLBACK_URI",
+                Duration = SubscriptionDurations.OneMonth,
+                NotifyConditions = new List<NotifyCondition>()
+                {
+                    new NotifyCondition(){
+                        Type = NotifyConditionTypes.ONCHANGE,
+                        ConditionValues = new List<string>(){ "temperature"}
+                    }
+                },
+                Throttling = SubscriptionThrottlingTypes.PT5S
+            };
+
+            ContextSubscriptionResponse subscriptionResponse = await client.SubscribeAsync(subscription);
